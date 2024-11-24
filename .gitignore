@@ -1,0 +1,5 @@
+**/.DS_Store
+data/*
+**/.venv/
+**/__pycache__/
+**/snakes2_wrapper_old.py
