@@ -18,6 +18,9 @@ Pathfinder-Listops/
 │   └── pathfinder.ipynb       # Notebook for experiments
 │
 ├── snakes/
+│   ├── generate_and_clean.sh  # Main bash script for generating images and checking similarity
+│   ├── get_parameters.py      # Script with accurate parameters for image generation
+│   ├── main_generation.py     # Main python script, which used in generate_and_clean.sh
 │   ├── snakes_wrapper.py      # Wrapper functions for snake operations
 │   ├── snakes.py              # Core snake logic and functions
 │   ├── snakes2_wrapper.py     # Additional wrapper functions for snake
@@ -37,6 +40,15 @@ poetry install
 
 ### How to generate images:
 
+**By bash scripts**:
+
+Script create a directory `data/<difficulty>_<n_images>_<image_size>` and check all images on similarity with original images from Pathfinder dataset (for this purpose you have to download the dataset to `data`)
+```
+bash generate_and_clean.sh -n <n_images> -s <image_size> -d <difficulty> -t <similarity_threshold>
+```
+
+**By python scripts**:
+This script doesn't remove similarly images.
 ```
 python3 snakes/snakes2_wrapper_new.py <n_images> <image_size> <difficulty>
 ```
@@ -65,7 +77,7 @@ Parameters for generation
 For all versions of the dataset, three levels of complexity are used, which are determined using the parameter ```file_pattern```:
 
 - easy: curv_baseline
-- intermediate: curv_contour_length_9
+- medium: curv_contour_length_9
 - hard: curv_contour_length_14
 
 The function of code is below:
@@ -102,30 +114,90 @@ Pathfinder **32 Hard**
 - snake_contrast_list: [2]
 - paddle_contrast_list: [0.75]
 
-Pathfinder **128 Easy & Hard** 
+Pathfinder **128 Easy** 
 
 - window_size: [128, 128]
-- contour_length: (6 - easy, 9 - intermediate, 14 - hard modification)
+- contour_length: 6
 - distractor_length: contour_length / 3
 - num_distractor_snakes: 35 / distractor_length
+- paddle_margin_list: [2, 3]
+- padding: 1
+- paddle_length: 5
+- marker_radius: 3
+- paddle_thickness: 1.0
+- antialias_scale: 2
+- seed_distance: 20
+- continuity: 1.8
+- snake_contrast_list: [0.9]
+
+Pathfinder **128 Medium** 
+
+- window_size: [128, 128]
+- contour_length: 9
+- distractor_length: contour_length / 3
+- num_distractor_snakes: 20
 - paddle_margin_list: [2, 3]
 - padding: 1
 - marker_radius: 3
 - paddle_thickness: 1.5
 - antialias_scale: 2
 - seed_distance: 20
-- continuity: 1.8 (from 1.8 to 0.8, with steps of 66%)
+- continuity: 1.8
 - snake_contrast_list: [0.9]
 
-Pathfinder **256 Easy & Hard**
+Pathfinder **128 Hard** 
+
+- window_size: [128, 128]
+- contour_length: 14
+- distractor_length: contour_length / 3
+- num_distractor_snakes: 20
+- paddle_margin_list: [2, 3]
+- padding: 1
+- marker_radius: 3
+- paddle_thickness: 1.5
+- antialias_scale: 2
+- seed_distance: 20
+- continuity: 1.8
+- snake_contrast_list: [0.9]
+
+Pathfinder **256 Easy**
 
 - window_size: [256, 256]
-- contour_length: (6 - easy, 9 - intermediate, 14 - hard modification)
-- distractor_length: contour_length / 3
-- num_distractor_snakes: 30 / distractor_length
+- contour_length: 6
+- distractor_length: contour_length // 3
+- num_distractor_snakes: 30 // distractor_length
 - paddle_margin_list: [3]
 - marker_radius: 5
 - paddle_thickness: 2
+- paddle_length: 5
+- antialias_scale: 2
+- continuity: 1.8
+- snake_contrast_list: [1.0]
+
+Pathfinder **256 Medium**
+
+- window_size: [256, 256]
+- contour_length: 9
+- distractor_length: contour_length // 3
+- num_distractor_snakes: 7
+- paddle_margin_list: [3]
+- marker_radius: 5
+- paddle_thickness: 2
+- paddle_length: 5
+- antialias_scale: 2
+- continuity: 1.8
+- snake_contrast_list: [1.0]
+
+Pathfinder **256 Hard**
+
+- window_size: [256, 256]
+- contour_length: 14
+- distractor_length: contour_length // 3
+- num_distractor_snakes: 30 // distractor_length
+- paddle_margin_list: [3]
+- marker_radius: 5
+- paddle_thickness: 2
+- paddle_length: 5
 - antialias_scale: 2
 - continuity: 1.8
 - snake_contrast_list: [1.0]
